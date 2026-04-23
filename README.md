@@ -48,14 +48,30 @@ n8n öffnen → **Workflows importieren** → JSON-Datei aus `workflows/` auswä
 
 ## 📸 Screenshots
 
-![n8n Workflow Übersicht](screenshots/n8n-workflow-overview.png)
-*Übersicht des n8n Business Automation Repos mit allen verfügbaren Workflows*
+### n8n Workflow-Übersicht
 
-![Workflows-Ordner](screenshots/workflow-email.png)
-*Verfügbare Workflow-Templates für verschiedene Geschäftsanwendungen*
+![n8n Workflow Übersicht](screenshots/n8n-workflow-list.png)
+*Alle importierten Workflows in der n8n-Instanz — 4 fertige Automatisierungen für DACH-KMU*
 
-![Docker Compose Setup](screenshots/docker-compose-setup.png)
-*Docker Compose Konfiguration für schnellen Start mit einem Befehl*
+### E-Mail-Klassifizierung
+
+![E-Mail-Klassifizierung](screenshots/workflow-email-klassifizierung.png)
+*Eingehende E-Mails werden per KI (Claude/OpenAI) automatisch klassifiziert und weitergeleitet*
+
+### Lead-Erfassung
+
+![Lead-Erfassung](screenshots/workflow-lead-erfassung.png)
+*Webhook-basierte Lead-Erfassung mit automatischer CRM-Anbindung und Vertriebsbenachrichtigung*
+
+### Social-Media-Posting
+
+![Social-Media-Posting](screenshots/workflow-social-media.png)
+*RSS-Feed-gesteuerte LinkedIn-Posts mit KI-generiertem Content*
+
+### Rechnungseingang
+
+![Rechnungseingang](screenshots/workflow-rechnungseingang.png)
+*Automatische Rechnungserkennung aus E-Mails mit Google Sheets-Anbindung*
 
 ## 🛠️ Use Cases für KMU
 
