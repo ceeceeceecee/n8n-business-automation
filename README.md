@@ -48,9 +48,14 @@ n8n öffnen → **Workflows importieren** → JSON-Datei aus `workflows/` auswä
 
 ## 📸 Screenshots
 
-> Screenshots werden nachgereicht.
+![n8n Workflow Übersicht](screenshots/n8n-workflow-overview.png)
+*Übersicht des n8n Business Automation Repos mit allen verfügbaren Workflows*
 
-<!-- ![E-Mail-Klassifizierung](docs/screenshots/email-klassifizierung.png) -->
+![Workflows-Ordner](screenshots/workflow-email.png)
+*Verfügbare Workflow-Templates für verschiedene Geschäftsanwendungen*
+
+![Docker Compose Setup](screenshots/docker-compose-setup.png)
+*Docker Compose Konfiguration für schnellen Start mit einem Befehl*
 
 ## 🛠️ Use Cases für KMU
 
