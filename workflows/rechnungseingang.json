@@ -1,0 +1,71 @@
+{
+  "name": "Rechnungseingang",
+  "nodes": [
+    {
+      "parameters": {
+        "host": "imap.example.com",
+        "port": 993,
+        "secure": true,
+        "user": "={{ $credentials.imapUser }}",
+        "password": "={{ $credentials.imapPassword }}"
+      },
+      "id": "imap-trigger",
+      "name": "IMAP Trigger",
+      "type": "n8n-nodes-base.emailTrigger",
+      "typeVersion": 1.1,
+      "position": [220, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Prüfe ob die E-Mail eine Rechnung enthält\nconst subject = $input.first().json.subject.toLowerCase();\nconst hasAttachments = $input.first().json.attachments && $input.first().json.attachments.length > 0;\nconst keywords = ['rechnung', 'invoice', 'rechnungsnummer', 'invoice no'];\nconst isInvoice = keywords.some(kw => subject.includes(kw)) || hasAttachments;\nreturn [{ json: { ...$input.first().json, isInvoice, rechnungsdatum: new Date().toISOString() } }];"
+      },
+      "id": "filter-invoice",
+      "name": "Rechnung erkennen",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [{ "value1": "={{ $json.isInvoice }}", "value2": true }]
+        }
+      },
+      "id": "if-invoice",
+      "name": "Ist Rechnung?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [700, 300]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": { "documentId": "DEIN_GOOGLE_SHEET_ID" },
+        "sheetName": { "name": "Rechnungen" },
+        "options": {}
+      },
+      "id": "google-sheets",
+      "name": "In Google Sheets eintragen",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.3,
+      "position": [940, 200],
+      "credentials": { "googleSheetsOAuth2Api": { "id": "GSHEETS_CREDENTIAL_ID", "name": "Google Sheets API" } }
+    }
+  ],
+  "connections": {
+    "IMAP Trigger": { "main": [[{ "node": "Rechnung erkennen", "type": "main", "index": 0 }]] },
+    "Rechnung erkennen": { "main": [[{ "node": "Ist Rechnung?", "type": "main", "index": 0 }]] },
+    "Ist Rechnung?": {
+      "main": [
+        [{ "node": "In Google Sheets eintragen", "type": "main", "index": 0 }],
+        []
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": { "executionOrder": "v1" },
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2026-04-23T00:00:00.000Z",
+  "versionId": "1"
+}

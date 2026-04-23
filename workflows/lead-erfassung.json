@@ -1,0 +1,83 @@
+{
+  "name": "Lead-Erfassung",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "lead-erfassung",
+        "responseMode": "responseNode"
+      },
+      "id": "webhook",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [220, 300],
+      "webhookId": "lead-webhook-id"
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "duplicateItem": 0,
+        "assignments": {
+          "assignments": [
+            { "name": "leadId", "value": "={{ $now.toMillis() }}" },
+            { "name": "status", "value": "neu" },
+            { "name": "quelle", "value": "={{ $json.body.quelle || 'website' }}" }
+          ]
+        }
+      },
+      "id": "set-node",
+      "name": "Lead anreichern",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.example.com/crm/leads",
+        "sendHeaders": true,
+        "headerParameters": { "parameters": [{ "name": "Authorization", "value": "Bearer DEIN_API_TOKEN" }] },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            { "name": "name", "value": "={{ $json.body.name }}" },
+            { "name": "email", "value": "={{ $json.body.email }}" },
+            { "name": "telefon", "value": "={{ $json.body.telefon }}" },
+            { "name": "nachricht", "value": "={{ $json.body.nachricht }}" },
+            { "name": "leadId", "value": "={{ $json.leadId }}" }
+          ]
+        }
+      },
+      "id": "http-request",
+      "name": "An CRM senden",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [700, 300]
+    },
+    {
+      "parameters": {
+        "fromEmail": "leads@example.com",
+        "toEmail": "vertrieb@example.com",
+        "subject": "Neuer Lead: {{ $json.body.name }}",
+        "text": "Neuer Lead erfasst:\n\nName: {{$json.body.name}}\nE-Mail: {{$json.body.email}}\nTelefon: {{$json.body.telefon}}\nNachricht: {{$json.body.nachricht}}\nQuelle: {{$json.body.quelle}}"
+      },
+      "id": "send-email",
+      "name": "Vertrieb benachrichtigen",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [940, 300]
+    }
+  ],
+  "connections": {
+    "Webhook": { "main": [[{ "node": "Lead anreichern", "type": "main", "index": 0 }]] },
+    "Lead anreichern": { "main": [[{ "node": "An CRM senden", "type": "main", "index": 0 }]] },
+    "An CRM senden": { "main": [[{ "node": "Vertrieb benachrichtigen", "type": "main", "index": 0 }]] }
+  },
+  "pinData": {},
+  "settings": { "executionOrder": "v1" },
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2026-04-23T00:00:00.000Z",
+  "versionId": "1"
+}

@@ -1,0 +1,92 @@
+{
+  "name": "E-Mail-Klassifizierung",
+  "nodes": [
+    {
+      "parameters": {
+        "host": "imap.example.com",
+        "port": 993,
+        "secure": true,
+        "user": "={{ $credentials.imapUser }}",
+        "password": "={{ $credentials.imapPassword }}"
+      },
+      "id": "imap-trigger",
+      "name": "IMAP Trigger",
+      "type": "n8n-nodes-base.emailTrigger",
+      "typeVersion": 1.1,
+      "position": [220, 300]
+    },
+    {
+      "parameters": {
+        "prompt": "Klassifiziere die folgende E-Mail in eine der Kategorien: KUNDE, LIEFERANT, INTERN, SPAM, SONSTIGE.\n\nBetreff: {{$json.subject}}\n\nAbsender: {{$json.from}}\n\nInhalt: {{$json.text}}\n\nAntworte nur mit der Kategorie.",
+        "model": "claude-3-5-sonnet-20241022",
+        "options": {}
+      },
+      "id": "claude-classify",
+      "name": "KI-Klassifizierung",
+      "type": "@anthropic-ai/anthropic",
+      "typeVersion": 1,
+      "position": [460, 300],
+      "credentials": { "anthropicApi": { "id": "CLAUDE_CREDENTIAL_ID", "name": "Claude API" } }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.message.content[0].text }}",
+              "operation": "equals",
+              "value2": "KUNDE"
+            }
+          ]
+        }
+      },
+      "id": "if-node",
+      "name": "Kategorie prüfen",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [700, 300]
+    },
+    {
+      "parameters": {
+        "channel": "#neue-kundenanfragen",
+        "text": "🆕 Neue Kundenanfrage:\n*Von:* {{$node['IMAP Trigger'].json.from}}\n*Betreff:* {{$node['IMAP Trigger'].json.subject}}"
+      },
+      "id": "slack-notify",
+      "name": "Slack Benachrichtigung",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.1,
+      "position": [940, 200],
+      "credentials": { "slackApi": { "id": "SLACK_CREDENTIAL_ID", "name": "Slack API" } }
+    },
+    {
+      "parameters": {
+        "fromEmail": "automatisierung@example.com",
+        "toEmail": "={{ $node['IMAP Trigger'].json.from }}",
+        "subject": "Vielen Dank für Ihre Anfrage",
+        "text": "Guten Tag,\n\nvielen Dank für Ihre Nachricht. Wir werden uns zeitnah bei Ihnen melden.\n\nMit freundlichen Grüßen"
+      },
+      "id": "auto-reply",
+      "name": "Auto-Antwort",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [940, 400]
+    }
+  ],
+  "connections": {
+    "IMAP Trigger": { "main": [[{ "node": "KI-Klassifizierung", "type": "main", "index": 0 }]] },
+    "KI-Klassifizierung": { "main": [[{ "node": "Kategorie prüfen", "type": "main", "index": 0 }]] },
+    "Kategorie prüfen": {
+      "main": [
+        [{ "node": "Slack Benachrichtigung", "type": "main", "index": 0 }],
+        [{ "node": "Auto-Antwort", "type": "main", "index": 0 }]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": { "executionOrder": "v1" },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2026-04-23T00:00:00.000Z",
+  "versionId": "1"
+}

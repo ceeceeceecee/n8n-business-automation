@@ -1,0 +1,52 @@
+{
+  "name": "Social-Media-Posting",
+  "nodes": [
+    {
+      "parameters": {
+        "url": "https://blog.example.com/feed",
+        "interval": 3600
+      },
+      "id": "rss-trigger",
+      "name": "RSS Feed",
+      "type": "n8n-nodes-base.rssFeedTrigger",
+      "typeVersion": 1.1,
+      "position": [220, 300]
+    },
+    {
+      "parameters": {
+        "prompt": "Erstelle einen professionellen LinkedIn-Post auf Deutsch basierend auf dem folgenden Blog-Artikel. Maximal 1300 Zeichen. Nutze maximal 3 relevante Hashtags.\n\nTitel: {{$json.title}}\n\nZusammenfassung: {{$json.contentSnippet}}",
+        "model": "gpt-4o",
+        "options": {}
+      },
+      "id": "openai-post",
+      "name": "LinkedIn Post erstellen",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1.6,
+      "position": [460, 300],
+      "credentials": { "openAiApi": { "id": "OPENAI_CREDENTIAL_ID", "name": "OpenAI API" } }
+    },
+    {
+      "parameters": {
+        "resource": "post",
+        "text": "={{ $json.message.content }}",
+        "visibility": "anyone"
+      },
+      "id": "linkedin-post",
+      "name": "LinkedIn veröffentlichen",
+      "type": "n8n-nodes-base.linkedIn",
+      "typeVersion": 2,
+      "position": [700, 300],
+      "credentials": { "linkedInOAuth2Api": { "id": "LINKEDIN_CREDENTIAL_ID", "name": "LinkedIn API" } }
+    }
+  ],
+  "connections": {
+    "RSS Feed": { "main": [[{ "node": "LinkedIn Post erstellen", "type": "main", "index": 0 }]] },
+    "LinkedIn Post erstellen": { "main": [[{ "node": "LinkedIn veröffentlichen", "type": "main", "index": 0 }]] }
+  },
+  "pinData": {},
+  "settings": { "executionOrder": "v1" },
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2026-04-23T00:00:00.000Z",
+  "versionId": "1"
+}
