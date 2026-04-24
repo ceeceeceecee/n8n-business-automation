@@ -50,26 +50,35 @@ Ready-to-use n8n workflow templates for common SMB business processes — email,
 
 ---
 
-## Quick Start
-
-```bash
-# 1. Repo klonen
-git clone https://github.com/ceeceeceecee/n8n-business-automation.git
-cd n8n-business-automation
-
-# 2. n8n starten (Docker)
-cp .env.example .env
-# .env anpassen → docker compose up -d
-
-# 3. Workflows importieren
-# n8n UI → Workflows → Importieren → JSON aus workflows/
-```
+## 🚀 Schnellstart
 
 ### Voraussetzungen
 
-- [n8n](https://n8n.io) (selbstgehostet oder Cloud)
-- Docker & Docker Compose
-- API-Keys: Claude/OpenAI, Google, Slack (je nach Workflow)
+| Komponente | Version | Zweck |
+|---|---|---|
+| n8n | neueste | Workflow-Engine |
+| Docker & Docker Compose | 20.10+ / 2.0+ | n8n selbstgehostet |
+| Claude/OpenAI API Key | aktuell | KI-Verarbeitung |
+| Google Account (optional) | — | Sheets, Gmail |
+| Slack Workspace (optional) | — | Benachrichtigungen |
+
+### Installation
+
+```bash
+git clone https://github.com/ceeceeceecee/n8n-business-automation.git
+cd n8n-business-automation
+
+# n8n starten (Docker)
+cp .env.example .env
+# .env anpassen → docker compose up -d
+```
+
+### Erste Schritte
+
+1. **n8n öffnen** (Standard: `http://localhost:5678`)
+2. **Workflows importieren** — n8n UI → Workflows → Importieren → JSON-Dateien aus `workflows/`
+3. **API-Keys konfigurieren** — Claude/OpenAI Credentials in n8n anlegen
+4. **Workflow aktivieren** und ersten Testlauf starten
 
 ---
 
