@@ -1,142 +1,82 @@
-# n8n Business Automation
+# N8N Business Automation
 
-[![n8n](https://img.shields.io/badge/n8n-Workflow%20Templates-FF6D5A?logo=n8n)](https://n8n.io)
-[![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
-[![DACH](https://img.shields.io/badge/region-DACH%20KMU-1a73e8)]()
+<p align="center">
+<img src="https://raw.githubusercontent.com/ceeceeceecee/ai-document-analyzer/main/docs/coletrading-banner.svg" alt="ColeTrading" width="600">
+</p>
 
-> Fertige n8n-Workflow-Templates für typische KMU-Geschäftsprozesse — E-Mail, CRM, Marketing & Buchhaltung in einem Repo.
+![n8n](https://img.shields.io/badge/n8n-Templates-FF6D5A?logo=n8n) ![License](https://img.shields.io/badge/License-MIT-blue) ![DACH](https://img.shields.io/badge/DACH-KMU-1a73e8) ![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker)
 
-Ready-to-use n8n workflow templates for common SMB business processes — email, CRM, marketing & accounting in one repo.
+> n8n Workflow-Vorlagen für Geschäftsprozess-Automatisierung im Mittelstand
 
----
+## Overview
 
-## Screenshots
-
-### Workflow-Übersicht
-
-![n8n Workflow Übersicht](screenshots/n8n-workflow-list.png)
-*Alle 4 fertigen Automatisierungen auf einen Blick — direkt in deiner n8n-Instanz importierbar.*
-
-### E-Mail-Klassifizierung
-
-![E-Mail-Klassifizierung](screenshots/workflow-email-klassifizierung.png)
-*Eingehende E-Mails per KI (Claude/OpenAI) automatisch kategorisieren: Kunde, Lieferant, Intern.*
-
-### Lead-Erfassung
-
-![Lead-Erfassung](screenshots/workflow-lead-erfassung.png)
-*Webhook-basierte Lead-Erfassung mit automatischer CRM-Anbindung und Slack-Benachrichtigung.*
-
-### Social-Media-Posting
-
-![Social-Media-Posting](screenshots/workflow-social-media.png)
-*RSS-Feed-gesteuerte LinkedIn-Posts mit KI-generiertem Content.*
-
-### Rechnungseingang
-
-![Rechnungseingang](screenshots/workflow-rechnungseingang.png)
-*Automatische Rechnungserkennung aus E-Mails mit Google Sheets-Anbindung.*
-
----
+Sammlung professioneller n8n-Workflows für DACH-KMU. Deckt E-Mail-Verarbeitung, Lead-Erfassung, Social-Media, Rechnungseingang und weitere Geschäftsprozesse ab.
 
 ## Features
 
-| Workflow | Trigger | KI | Output |
-|----------|---------|----|--------|
-| E-Mail-Klassifizierung | IMAP Poll | Claude / OpenAI | Gmail Labels |
-| Lead-Erfassung | Webhook | — | Slack + Google Sheets |
-| Social-Media-Posting | Cron (RSS) | Claude / OpenAI | LinkedIn |
-| Rechnungseingang | E-Mail-Anhang | Claude / OpenAI | Google Sheets / Airtable |
-
----
-
-## 🚀 Schnellstart
-
-### Voraussetzungen
-
-| Komponente | Version | Zweck |
-|---|---|---|
-| n8n | neueste | Workflow-Engine |
-| Docker & Docker Compose | 20.10+ / 2.0+ | n8n selbstgehostet |
-| Claude/OpenAI API Key | aktuell | KI-Verarbeitung |
-| Google Account (optional) | — | Sheets, Gmail |
-| Slack Workspace (optional) | — | Benachrichtigungen |
-
-### Installation
-
-```bash
-git clone https://github.com/ceeceeceecee/n8n-business-automation.git
-cd n8n-business-automation
-
-# n8n starten (Docker)
-cp .env.example .env
-# .env anpassen → docker compose up -d
-```
-
-### Erste Schritte
-
-1. **n8n öffnen** (Standard: `http://localhost:5678`)
-2. **Workflows importieren** — n8n UI → Workflows → Importieren → JSON-Dateien aus `workflows/`
-3. **API-Keys konfigurieren** — Claude/OpenAI Credentials in n8n anlegen
-4. **Workflow aktivieren** und ersten Testlauf starten
-
----
-
-## Use Cases
-
-| Zielgruppe | Szenario | Workflow |
-|------------|----------|----------|
-| Kleinunternehmen | Inbox-Chaos reduzieren | E-Mail-Klassifizierung |
-| Vertrieb | Leads nicht verlieren | Lead-Erfassung |
-| Marketing | Social Media ohne Aufwand | Social-Media-Posting |
-| Buchhaltung | Rechnungen automatisch erfassen | Rechnungseingang |
-
----
+- E-Mail-Klassifizierung & Weiterleitung
+- Lead-Erfassung aus Web-Formularen
+- Social-Media-Monitoring
+- Rechnungseingang-Verarbeitung
+- Aufgaben-Verwaltung
+- Docker Compose für schnellen Start
 
 ## Tech Stack
 
-- **n8n** — Workflow-Engine & Orchestrierung
-- **Claude / OpenAI** — KI-Textverarbeitung
-- **Docker Compose** — Deployment
-- **Google Sheets / Airtable** — Datenbank
-- **Slack** — Benachrichtigungen
+| Tech | Zweck |
+|------|-------|
+| n8n | Workflow-Engine |
+| Docker Compose | Deployment |
+| JSON | Workflow-Format |
+| REST APIs | Integrationen |
 
----
+## Quick Start
 
-## Roadmap
+```bash
+docker compose up -d
+# Importiere Workflows aus /workflows
+```
 
-- [ ] WhatsApp-Business Integration
-- [ ] Invoice OCR mit Vision-Modell
-- [ ] Multi-Sprachen-Support (EN/FR)
-- [ ] n8n Cloud Template Store Publishing
+## Screenshots
+
+**n8n Workflow-Übersicht**
+
+<img src="screenshots/n8n-workflow-list.png" alt="n8n Workflow-Übersicht" width="800">
+
+**E-Mail-Klassifizierung Workflow**
+
+<img src="screenshots/workflow-email-klassifizierung.png" alt="E-Mail-Klassifizierung Workflow" width="800">
+
+**Lead-Erfassung Workflow**
+
+<img src="screenshots/workflow-lead-erfassung.png" alt="Lead-Erfassung Workflow" width="800">
+
+**Rechnungseingang Workflow**
+
+<img src="screenshots/workflow-rechnungseingang.png" alt="Rechnungseingang Workflow" width="800">
+
+**Social-Media Workflow**
+
+<img src="screenshots/workflow-social-media.png" alt="Social-Media Workflow" width="800">
+
+**Workflow-Architektur**
+
+<img src="screenshots/n8n-workflow-overview.png" alt="Workflow-Architektur" width="800">
+
+**Docker Compose Setup**
+
+<img src="screenshots/docker-compose-setup.png" alt="Docker Compose Setup" width="800">
 
 ---
 
 ## Contributing
 
-1. Fork erstellen
-2. Feature-Branch: `git checkout -b feature/mein-workflow`
-3. Commit: `git commit -m 'Add: Mein Workflow'`
-4. Push: `git push origin feature/mein-workflow`
-5. Pull Request
+Beiträge sind willkommen! Bitte erstelle einen Issue oder Pull Request.
 
-Siehe [CONTRIBUTING.md](CONTRIBUTING.md) für Details.
+## License
 
----
+MIT License — siehe [LICENSE](LICENSE).
 
-
-## 👤 Autor
-
-**Cela** — Freelancer für digitale Verwaltungslösungen
-## Lizenz
-
-[MIT](LICENSE) — frei nutzbar, kommerziell und privat.
-
-## Author
-
-[ceeceeceecee](https://github.com/ceeceeceecee)
-
-## Weitere Projekte
-
-- [AI Email Assistant](https://github.com/ceeceeceecee/ai-email-assistant) — KI-E-Mail-Assistent
-- [Self-Hosted AI Chatbot](https://github.com/ceeceeceecee/self-hosted-ai-chatbot) — DSGVO-konformer Chatbot
+<p align="center">
+<a href="https://github.com/ceeceeceecee">ColeTrading</a> &bull; DSGVO-konform &bull; Self-Hosted &bull; Open Source
+</p>
